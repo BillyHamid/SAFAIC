@@ -30,7 +30,7 @@ export default function SignupFormSAFAIC() {
     };
 
     try {
-      const res = await fetch("https://script.google.com/macros/s/AKfycbxQSfIKIhQM1KS92OKJ6K_y2i6-ZDT6tcau6I_deXmry7smPf3Xo7gvckwdMwShooPXXQ/exec", {
+      const res = await fetch("https://script.google.com/macros/s/AKfycbxkW-oZFamHX3ZNgSZzFoxUUklGqjmwcOgtVqYZafVkTZBK0MPfcz71CeE4lhlXBouD5Q/exec", {
         method: "POST",
         body: JSON.stringify(data),
         headers: { "Content-Type": "application/json" },
