@@ -4,14 +4,18 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {
   Mail, Phone, User, MapPin, Globe,
-  Languages, Briefcase, BadgePlus
+  Languages, Briefcase, BadgePlus,
 } from "lucide-react";
 
 import Image from "next/image";
 
+
 export default function SignupFormSAFAIC() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+const [fullName, setFullName] = useState(""); // nom + prénom
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,10 +32,14 @@ export default function SignupFormSAFAIC() {
       specialite: formData.get("specialite"),
       nationalite: formData.get("nationalite"),
       residence: formData.get("residence"),
+      lieu: formData.get("lieu"),
       langues: formData.get("langues"),
       email: formData.get("email"),
       whatsapp: formData.get("whatsapp")
     };
+
+    
+
 
     try {
       console.log('Envoi des données SAFAIC:', data);
@@ -59,6 +67,14 @@ export default function SignupFormSAFAIC() {
         alert("Erreur lors de l'envoi: " + result.message);
       }
 
+      if (result.success) {
+  const nom = formData.get("nom")?.toString() || "";
+  const prenom = formData.get("prenom")?.toString() || "";
+  setFullName(`${prenom} ${nom}`);
+  setModalOpen(true);
+  form.reset();
+}
+
     } catch (error) {
       console.error("Erreur réseau:", error);
       alert("Erreur de connexion. Vérifiez votre connexion internet.");
@@ -76,7 +92,7 @@ export default function SignupFormSAFAIC() {
           <Image
             width={320}
             height={320}
-            src="/0-removebg-preview.png" // Remplace par le bon chemin si besoin
+            src="/Capture_d_écran_2025-06-18_225339-removebg-preview.png" // Remplace par le bon chemin si besoin
             alt="Logo SAFAIC"
             className="object-contain drop-shadow-lg"
           />
@@ -118,7 +134,6 @@ export default function SignupFormSAFAIC() {
                   <option value="" disabled>Sélectionnez un genre</option>
                   <option value="homme">Homme</option>
                   <option value="femme">Femme</option>
-                  <option value="autre">Autre</option>
                 </select>
               </div>
 
@@ -133,11 +148,12 @@ export default function SignupFormSAFAIC() {
             <LabelInputWithIcon label="Spécialité" icon={<Briefcase className="h-4 w-4" />} id="specialite" placeholder="Médecine interne, Chirurgie..." />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <LabelInputWithIcon label="Nationalité" icon={<Globe className="h-4 w-4" />} id="nationalite" placeholder="Burkinabè, Ivoirien(ne)..." />
+              <LabelInputWithIcon label="Nationalité" icon={<Globe className="h-4 w-4" />} id="nationalite" placeholder="Burkinabè, Algérien(ne),Ivoirien(ne)..." />
               <LabelInputWithIcon label="Résidence" icon={<MapPin className="h-4 w-4" />} id="residence" placeholder="Ouagadougou, Burkina Faso" />
             </div>
-
-            <LabelInputWithIcon label="Langues parlées" icon={<Languages className="h-4 w-4" />} id="langues" placeholder="Français, Anglais, Mooré..." />
+            
+            <LabelInputWithIcon label="Lieu d'exercice" icon={<Briefcase className="h-4 w-4" />} id="lieu" placeholder="CHU, Hôpital, Université,.." />
+            <LabelInputWithIcon label="Langues parlées" icon={<Languages className="h-4 w-4" />} id="langues" placeholder="Français, Anglais, Arabe..." />
             <LabelInputWithIcon label="Adresse Email" icon={<Mail className="h-4 w-4" />} id="email" type="email" placeholder="exemple@safaic.org" />
             <LabelInputWithIcon label="Téléphone WhatsApp" icon={<Phone className="h-4 w-4" />} id="whatsapp" type="tel" placeholder="+226 70 00 00 00" />
 
@@ -149,8 +165,29 @@ export default function SignupFormSAFAIC() {
             </button>
           </form>
         </div>
+      
       </div>
+      {modalOpen && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div className="bg-white p-6 rounded-xl shadow-xl text-center max-w-md w-full">
+      <h3 className="text-2xl font-bold text-green-600 mb-2">Merci ! <strong>{fullName}</strong>,</h3>
+      <p className="text-gray-700 text-lg mb-4">
+         votre inscription a bien été enregistrée. Bienvenue à la SAFAIC 🎉
+      </p>
+      <button
+        onClick={() => setModalOpen(false)}
+        className="mt-2 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
+        Fermer
+      </button>
     </div>
+  </div>
+)}
+
+
+
+    </div>
+
+    
   );
 }
 

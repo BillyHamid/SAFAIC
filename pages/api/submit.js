@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     console.log('Données SAFAIC reçues:', req.body);
 
     // Appel vers Google Apps Script
-    const response = await fetch('https://script.google.com/macros/s/AKfycbxtitN4tT3x1GbLLVGzpjVqygrQqTpEIPuIIvpLBha12SfmMLZbfqeqyv4nRxAC-gEv-A/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbw9NsG48-fraVkMOhqy6uOnJRkYMfp9Z600YtvhF0odDmnQye_IEcGRxkjpF6eBy1CK/exec', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
